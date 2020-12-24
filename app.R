@@ -3,7 +3,6 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(scales)
-library(cowplot)
 
 #library(devtools) #only need for installing tanagR or calecopal
 
@@ -18,7 +17,7 @@ min_max <- function(vector){
     return(min_max)
 }
 
-# read in cleaned CRMO ACG CBC data
+# read in cleaned CRMO CBC data
 CRMO <- read_csv("CRMO-CBC-2019-cleaned.csv")
 
 ## redo with CRMO species
@@ -36,7 +35,7 @@ years_list <- CRMO %>%
 year_min_max <- min_max(years_list)
 
 
-ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
+ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2019",
                  
                  tabPanel(
                      
@@ -59,10 +58,10 @@ ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
                              # Input: which species ----
                              selectizeInput("species_picked",
                                             multiple = TRUE,
-                                            selected = c("Dives dives", "Pharomachrus mocinno", "Ramphastos sulfuratus"),
-                                            label = "Puede seleccionar los nombres científicos de la lista o escribirlos (máximo 4):",
+                                            selected = c("Dives dives", "Pharomachrus mocinno", "Falco rufigularis", "Streptoprocne zonaris", "Crax rubra", "Spizaetus ornatus"),
+                                            label = "Puede seleccionar los nombres científicos de la lista o escribirlos (máximo 6):",
                                             choices = species_list,
-                                            options = list(maxItems = 4)),
+                                            options = list(maxItems = 6)),
                              
                              
                              #Input: Slider for the number of years ----
@@ -83,13 +82,13 @@ ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
                                  
                                  #tags$li("No incluye aves no identificadas a nivel de especie"),
                                  
-                                 tags$li("Por cambios en taxonomía y nomenclatura algunas especies aparecer bajo nombres científicos desactualizados")
+                                 tags$li("Por cambios en taxonomía y nomenclatura algunas especies aparecen bajo nombres científicos desactualizados")
                              
                     
                              )
                              ),
                              
-                             tags$a(href="https://netapp.audubon.org/CBCObservation/Historical/ResultsByCount.aspx", "Los datos se pueden descargar en formato csv de la base de datos de Audubon", target="_blank")
+                             tags$a(href="https://netapp.audubon.org/CBCObservation/Historical/ResultsByCount.aspx", "Los datos se pueden descargar de la base de datos de Audubon", target="_blank")
                          ),
                          
                          # Main panel for displaying outputs ----
@@ -105,7 +104,7 @@ ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
                  
                  tabPanel(
                      
-                     titlePanel(tags$h4("Resultados por año")),
+                     titlePanel(tags$h4("Especies con mayor detecciones por año")),
                      
                      # Sidebar layout with input and output definitions ----
                      sidebarLayout(
@@ -115,7 +114,7 @@ ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
                              
                              # Input: which year ----
                              selectInput("individual_year_picked",
-                                         label = "¿Para cuál año quisiera visualizar los resultados del Conteo Navideño de Aves Santa Rosa?",
+                                         label = "¿Para cuál año quisiera visualizar los resultados del Conteo Navideño de Aves Monteverde?",
                                          choices = years_list),
                              
                              
@@ -143,7 +142,7 @@ server <- function(input, output) {
     # First navbar output ----
     data_input <- reactive({
         
-        #update with ACG variables
+        #update with CRMO variables
         CRMO %>% 
             filter(year >= req(input$years_picked[1]),
                    year <= req(input$years_picked[2]),
@@ -163,7 +162,6 @@ server <- function(input, output) {
                 geom_point(size = 2) +
                 xlab("Año") +
                 ylab("Inividuos por hora") + #can change to "número/hora"
-                #theme_cowplot() +
                 theme_minimal_hgrid()+
                 theme(text = element_text(size = 18),
                       legend.position = "none",
@@ -174,7 +172,7 @@ server <- function(input, output) {
                 theme(strip.text = element_text(face = "bold.italic")) + #make facet labels/titles italics             
                 #scale_colour_paletteer_c("tanagr::tangara_chilensis") +
                 #scale_color_manual(values = cal_palette("sierra1")) +
-                scale_x_continuous(breaks = seq(1994, 2019, by = 2)) +
+                scale_x_continuous(breaks = seq(1994, 2019, by = 4)) +
                 scale_y_continuous(labels = comma)#+
                 #scale_color_tanagr(palette_name = "tangara_chilensis")
             
@@ -190,7 +188,7 @@ server <- function(input, output) {
     
     output$count_table <- renderTable({
         
-        ##update with ACG
+        ##update with CRMO
         CRMO %>%
             filter(year == input$individual_year_picked) %>%
             count(species_latin, how_many_counted) %>%

@@ -18,17 +18,17 @@ min_max <- function(vector){
     return(min_max)
 }
 
-# read in cleaned CRCA ACG CBC data
-CRCA <- read_csv("CRCA-CBC-2019-cleaned.csv")
+# read in cleaned CRMO ACG CBC data
+CRMO <- read_csv("CRMO-CBC-2019-cleaned.csv")
 
-## redo with CRCA species
-species_list <- CRCA %>%
+## redo with CRMO species
+species_list <- CRMO %>%
     distinct(species_latin) %>%
     rename(Especies = species_latin) #%>%
     #arrange(Especies) don't sort alphabetically
 
-##redo with CRCA data
-years_list <- CRCA %>%
+##redo with CRMO data
+years_list <- CRMO %>%
     distinct(year) %>%
     rename(Year = year) %>%
     arrange(-Year)
@@ -36,7 +36,7 @@ years_list <- CRCA %>%
 year_min_max <- min_max(years_list)
 
 
-ui <- navbarPage("Conteo de Aves ACG- Cacao",
+ui <- navbarPage("Conteo de Aves Monteverde 1994-2019",
                  
                  tabPanel(
                      
@@ -59,10 +59,10 @@ ui <- navbarPage("Conteo de Aves ACG- Cacao",
                              # Input: which species ----
                              selectizeInput("species_picked",
                                             multiple = TRUE,
-                                            selected = c("Crax rubra", "Penelope purpurascens"),
-                                            label = "Puede seleccionar los nombres científicos de la lista o escribirlos (máximo 6):",
+                                            selected = c("Dives dives", "Pharomachrus mocinno", "Ramphastos sulfuratus"),
+                                            label = "Puede seleccionar los nombres científicos de la lista o escribirlos (máximo 4):",
                                             choices = species_list,
-                                            options = list(maxItems = 6)),
+                                            options = list(maxItems = 4)),
                              
                              
                              #Input: Slider for the number of years ----
@@ -72,7 +72,7 @@ ui <- navbarPage("Conteo de Aves ACG- Cacao",
                                          sep = "",
                                          min = year_min_max[1],
                                          max = year_min_max[2],
-                                         value = c(2010, year_min_max[2])),
+                                         value = c(1994, year_min_max[2])),
                              
                              helpText(tags$ul(
                                  tags$li("Tenga en cuenta que los ejes verticales no siempre empiezan en 0"),
@@ -144,7 +144,7 @@ server <- function(input, output) {
     data_input <- reactive({
         
         #update with ACG variables
-        CRCA %>% 
+        CRMO %>% 
             filter(year >= req(input$years_picked[1]),
                    year <= req(input$years_picked[2]),
                    species_latin %in% req(input$species_picked))
@@ -174,7 +174,7 @@ server <- function(input, output) {
                 theme(strip.text = element_text(face = "bold.italic")) + #make facet labels/titles italics             
                 #scale_colour_paletteer_c("tanagr::tangara_chilensis") +
                 #scale_color_manual(values = cal_palette("sierra1")) +
-                scale_x_continuous(breaks = seq(2010, 2019, by = 2)) +
+                scale_x_continuous(breaks = seq(1994, 2019, by = 2)) +
                 scale_y_continuous(labels = comma)#+
                 #scale_color_tanagr(palette_name = "tangara_chilensis")
             
@@ -191,7 +191,7 @@ server <- function(input, output) {
     output$count_table <- renderTable({
         
         ##update with ACG
-        CRCA %>%
+        CRMO %>%
             filter(year == input$individual_year_picked) %>%
             count(species_latin, how_many_counted) %>%
             select(-n) %>%

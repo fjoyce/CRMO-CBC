@@ -1,0 +1,13 @@
+name: CRMO-CBC
+title: CRMO-CBC
+username:
+account: fhjoyce
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3427827
+bundleId: 4024801
+url: https://fhjoyce.shinyapps.io/CRMO-CBC/
+when: 1608788531.48229
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: data/.Rhistory

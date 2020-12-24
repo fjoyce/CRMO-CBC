@@ -3,6 +3,7 @@ library(dplyr)
 library(ggplot2)
 library(readr)
 library(scales)
+library(cowplot)
 
 #library(devtools) #only need for installing tanagR or calecopal
 

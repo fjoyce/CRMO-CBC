@@ -29,7 +29,7 @@ Download data from here: https://netapp.audubon.org/cbcobservation/historical/re
 Use count code CRMO
 
 Start year = 95 (1994)
-End year = 120 (2019)
+can do this with code after imporringEnd year = 120 (2019)
 
 CSV, sort Taxonomic
 
@@ -37,6 +37,7 @@ Then, delete non-species count top rows.
 
 ALso delete the rows below for participants...
 
+#Should just do this programmatically after read_csv
 Rename so that the columns are:
 
 species
@@ -45,15 +46,13 @@ how_many_cw
 number_by_party_hours
 flags
 
-
-
-
 ```{r}
 CRMO_cbc <- read_csv(here("data/CRMO-1994-2019_pre-cleaned.csv"))
 ```
 
 
 ```{r}
+#preview data frame
 CRMO_cbc %>%
   head() %>%
   kable() %>%
@@ -63,13 +62,14 @@ CRMO_cbc %>%
 
 
 ```{r}
+#this just pulls out the values in the species columnn for the first row
 CRMO_cbc %>% 
   filter(row_number() == 1) %>% 
   pull(species)
 ```
 
 ```{r}
-# Putting it together: Mutating the two variables
+# create new variable for scientific name and make species just common name
 CRMO_cbc <- CRMO_cbc %>%
   mutate(species_latin = str_extract(species, "(?<=\\[).+?(?=\\])"),
          species = word(species, start = 1, sep = fixed('\n[')))
@@ -77,12 +77,15 @@ CRMO_cbc <- CRMO_cbc %>%
 
 
 ```{r}
-CRMO_cbc %>% 
-  filter(row_number() == 15133) %>% 
-  pull(count_year)
+#I think this is an artifact from Sharleen's code...
+#CRMO_cbc %>% 
+  #filter(row_number() == 15133) %>% 
+  #pull(count_year)
 ```
 
 ```{r}
+# again, code from Sharleen W that I idn't actually use
+
 count_participant_meta_data <- CRMO_cbc %>%
   distinct(participant_info = count_year) %>%
   mutate(year = word(participant_info)) %>%
@@ -113,6 +116,7 @@ CRMO_cbc <- CRMO_cbc %>%
 ```
 
 ```{r}
+#select only the columns needed by the shiny app
 CRMO_cbc <- CRMO_cbc %>%
   select(year, species, species_latin, how_many_counted, total_hours)
 ```
@@ -139,6 +143,7 @@ CRMO_cbc <- CRMO_cbc %>%
 ```
 
 ```{r}
+#replace NAs with 0s
 CRMO_cbc <- CRMO_cbc %>%
   mutate(how_many_counted = replace_na(how_many_counted, 0),
          how_many_counted_by_hour = as.double(how_many_counted) / total_hours)

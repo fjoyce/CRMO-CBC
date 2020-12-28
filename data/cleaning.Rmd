@@ -84,7 +84,7 @@ CRMO_cbc <- CRMO_cbc %>%
 ```
 
 ```{r}
-# again, code from Sharleen W that I idn't actually use
+# again, code from Sharleen W that I didn't actually use
 
 count_participant_meta_data <- CRMO_cbc %>%
   distinct(participant_info = count_year) %>%

@@ -16,7 +16,7 @@ library(leaflet)
 ```{r}
 map <- leaflet() %>% 
   addProviderTiles("Esri.WorldImagery") %>% 
-  addCircles(lng = -84.77
+  addCircles(lng = -84.77,
              lat = 10.30,
              weight = 2,
              radius = 12070,

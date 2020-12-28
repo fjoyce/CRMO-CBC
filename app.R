@@ -1,4 +1,5 @@
 library(shiny)
+library(leaflet)
 library(dplyr)
 library(ggplot2)
 library(readr)
@@ -102,10 +103,10 @@ ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2019",
                      )
                  ),
                  
-                 
+                 # Second tab
                  tabPanel(
                      
-                     titlePanel(tags$h4("Especies con mayor detecciones por año")),
+                     titlePanel(tags$h4("Especies más detectadas por año")),
                      
                      # Sidebar layout with input and output definitions ----
                      sidebarLayout(
@@ -134,6 +135,20 @@ ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2019",
                      
                      
                      
+                 ),
+                 
+                 #Third panel for circle map
+                 tabPanel(
+                     
+                     titlePanel(tags$h4("Mapa del círculo")),
+                     
+                     # Main panel for displaying outputs ----
+                     mainPanel(
+                         
+                         leafletOutput("mapa"),
+                         p()
+                         
+                     )
                  )
 )
 
@@ -201,6 +216,22 @@ server <- function(input, output) {
             rename(Especie = species_latin, `Individuos contados` = how_many_counted)
         
     },
+    
+    # Third navbar output ----
+    output$mapa <- renderLeaflet({
+        leaflet() %>% 
+            addProviderTiles("Esri.WorldImagery") %>% 
+            addCircles(lng = -84.77,
+                       lat = 10.30,
+                       weight = 4,
+                       radius = 12070,
+                       color = "green",
+                       popup = "circulo de conteo",
+                       fillOpacity = 0) %>% 
+            setView(lat = 10.30,
+                    lng = -84.77,
+                    zoom = 11)
+    }),
     
     align = "lr")
 }

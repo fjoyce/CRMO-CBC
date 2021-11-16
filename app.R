@@ -20,7 +20,7 @@ min_max <- function(vector){
 }
 
 # read in cleaned CRMO CBC data
-CRMO <- read_csv("CRMO-CBC-2019-cleaned.csv")
+CRMO <- read_csv("CRMO-CBC-2020-cleaned.csv")
 
 ## redo with CRMO species
 species_list <- CRMO %>%
@@ -37,7 +37,7 @@ years_list <- CRMO %>%
 year_min_max <- min_max(years_list)
 
 
-ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2019",
+ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2020",
                  
                  tabPanel(
                      

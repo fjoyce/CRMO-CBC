@@ -5,9 +5,9 @@ account: fhjoyce
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3427827
-bundleId: 4026030
+bundleId: 5256374
 url: https://fhjoyce.shinyapps.io/CRMO-CBC/
-when: 1608823618.8989
+when: 1637031854.11554
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: data/.Rhistory
+ignoredFiles: CRMO-CBC-2019-cleaned.csv|leaflet_map.Rmd|MonteverdeCBC.kml|data

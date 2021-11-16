@@ -11,11 +11,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-library(dplyr)
+library(tidyverse)
 library(janitor)
 library(readr)
 library(naniar)
-library(lubridate)
 library(stringr)
 library(purrr)
 library(tidyr)
@@ -35,19 +34,10 @@ CSV, sort Taxonomic
 
 Then, delete non-species count top rows.
 
-ALso delete the rows below for participants...
-
-#Should just do this programmatically after read_csv
-Rename so that the columns are:
-
-species
-count_year
-how_many_cw	
-number_by_party_hours
-flags
+Also delete the rows below for participants...
 
 ```{r}
-CRMO_cbc <- read_csv(here("data/CRMO-1994-2019_pre-cleaned.csv"))
+CRMO_cbc <- read_csv(here("data/CRMO-1994-2020_pre-cleaned.csv"))
 ```
 
 
@@ -60,6 +50,27 @@ CRMO_cbc %>%
 
 ```
 
+
+
+
+```{r}
+#Rename so that the columns are:
+
+#species
+#count_year
+#how_many_cw	
+#number_by_party_hours
+#flags
+
+CRMO_cbc <- CRMO_cbc %>% 
+  rename(species = COM_NAME, 
+         count_year = CountYear, 
+         how_many_cw = how_manyCW,
+         number_by_party_hours = NumberByPartyHours,
+         flags = Flags
+        )
+
+```
 
 ```{r}
 #this just pulls out the values in the species columnn for the first row
@@ -150,6 +161,7 @@ CRMO_cbc <- CRMO_cbc %>%
 ```
 
 ```{r}
+#preview again
 CRMO_cbc %>%
   head() %>%
   kable() %>%
@@ -159,6 +171,6 @@ CRMO_cbc %>%
 Move this file manually to the root directory
 
 ```{r}
-write_csv(CRMO_cbc, "CRMO-CBC-2019-cleaned.csv")
+write_csv(CRMO_cbc, "CRMO-CBC-2020-cleaned.csv")
 ```
 

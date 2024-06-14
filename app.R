@@ -1,8 +1,9 @@
 library(shiny)
 library(leaflet)
-library(dplyr)
-library(ggplot2)
-library(readr)
+library(tidyverse)
+#library(dplyr)
+#library(ggplot2)
+#library(readr)
 library(scales)
 library(cowplot)
 
@@ -20,7 +21,7 @@ min_max <- function(vector){
 }
 
 # read in cleaned CRMO CBC data
-CRMO <- read_csv("CRMO-CBC-2022-cleaned.csv")
+CRMO <- read.csv("CRMO-CBC-2022-cleaned.csv")
 
 ## redo with CRMO species
 species_list <- CRMO %>%
@@ -188,7 +189,7 @@ server <- function(input, output) {
                 theme(strip.text = element_text(face = "bold.italic")) + #make facet labels/titles italics             
                 #scale_colour_paletteer_c("tanagr::tangara_chilensis") +
                 #scale_color_manual(values = cal_palette("sierra1")) +
-                scale_x_continuous(breaks = seq(1994, 2019, by = 4)) +
+                scale_x_continuous(breaks = seq(1994, 2022, by = 4)) +
                 scale_y_continuous(labels = comma)#+
                 #scale_color_tanagr(palette_name = "tangara_chilensis")
             

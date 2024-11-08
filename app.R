@@ -1,3 +1,5 @@
+#packages -----
+
 library(shiny)
 library(leaflet)
 library(tidyverse)
@@ -20,8 +22,10 @@ min_max <- function(vector){
     return(min_max)
 }
 
+# data ----
+
 # read in cleaned CRMO CBC data
-CRMO <- read.csv("CRMO-CBC-2022-cleaned.csv")
+CRMO <- read.csv("CRMO-CBC-2023-cleaned.csv")
 
 ## redo with CRMO species
 species_list <- CRMO %>%
@@ -38,7 +42,7 @@ years_list <- CRMO %>%
 year_min_max <- min_max(years_list)
 
 
-ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2022",
+ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2023",
                  
                  tabPanel(
                      
@@ -189,7 +193,7 @@ server <- function(input, output) {
                 theme(strip.text = element_text(face = "bold.italic")) + #make facet labels/titles italics             
                 #scale_colour_paletteer_c("tanagr::tangara_chilensis") +
                 #scale_color_manual(values = cal_palette("sierra1")) +
-                scale_x_continuous(breaks = seq(1994, 2022, by = 4)) +
+                scale_x_continuous(breaks = seq(1994, 2023, by = 4)) +
                 scale_y_continuous(labels = comma)#+
                 #scale_color_tanagr(palette_name = "tangara_chilensis")
             

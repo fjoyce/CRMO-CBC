@@ -25,7 +25,7 @@ min_max <- function(vector){
 # data ----
 
 # read in cleaned CRMO CBC data
-CRMO <- read.csv("CRMO-CBC-2023-cleaned.csv")
+CRMO <- read.csv("CRMO-CBC-2024-cleaned.csv")
 
 ## redo with CRMO species
 species_list <- CRMO %>%
@@ -182,7 +182,7 @@ server <- function(input, output) {
                 geom_line(size = 1) +
                 geom_point(size = 2) +
                 xlab("Año") +
-                ylab("Inividuos por hora") + #can change to "número/hora"
+                ylab("Inividuos") + #can change to "número/hora"
                 theme_minimal_hgrid()+
                 theme(text = element_text(size = 18),
                       legend.position = "none",
@@ -193,7 +193,7 @@ server <- function(input, output) {
                 theme(strip.text = element_text(face = "bold.italic")) + #make facet labels/titles italics             
                 #scale_colour_paletteer_c("tanagr::tangara_chilensis") +
                 #scale_color_manual(values = cal_palette("sierra1")) +
-                scale_x_continuous(breaks = seq(1994, 2023, by = 4)) +
+                scale_x_continuous(breaks = seq(1994, 2024, by = 4)) +
                 scale_y_continuous(labels = comma)#+
                 #scale_color_tanagr(palette_name = "tangara_chilensis")
             

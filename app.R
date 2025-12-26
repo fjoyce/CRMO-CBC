@@ -42,7 +42,7 @@ years_list <- CRMO %>%
 year_min_max <- min_max(years_list)
 
 
-ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2023",
+ui <- navbarPage("Conteo Navideño de Aves Monteverde 1994-2024",
                  
                  tabPanel(
                      
@@ -178,7 +178,7 @@ server <- function(input, output) {
         plotting_function <- function(input_for_plot){
             
             input_for_plot %>%
-                ggplot(aes(x = year, y = how_many_counted_by_hour, color = species_latin)) +
+                ggplot(aes(x = year, y = how_many_counted, color = species_latin)) +
                 geom_line(size = 1) +
                 geom_point(size = 2) +
                 xlab("Año") +

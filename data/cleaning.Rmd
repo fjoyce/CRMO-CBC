@@ -40,7 +40,7 @@ Then, delete non-species count top rows.
 Also delete the rows below for participants...
 
 ```{r}
-CRMO_cbc <- read_csv(here("data/CRMO-1994-2023_pre-cleaned.csv"))
+CRMO_cbc <- read_csv(here("data/CRMO-1994-2024_pre-cleaned.csv"))
 ```
 
 
@@ -76,7 +76,7 @@ CRMO_cbc <- CRMO_cbc %>%
 ```
 
 ```{r}
-#this just pulls out the values in the species columnn for the first row
+#this just pulls out the values in the species column for the first row
 CRMO_cbc %>% 
   filter(row_number() == 1) %>% 
   pull(species)
@@ -174,6 +174,6 @@ CRMO_cbc %>%
 Move this file manually to the root directory
 
 ```{r}
-write_csv(CRMO_cbc, "CRMO-CBC-2023-cleaned.csv")
+write_csv(CRMO_cbc, "CRMO-CBC-2024-cleaned.csv")
 ```
 
